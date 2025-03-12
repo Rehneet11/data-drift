@@ -29,7 +29,7 @@ const routes=[
         icon:CircleDollarSignIcon,
     }
 ];
-function BigSidebar() {
+export function BigSidebar() {
     const pathname=usePathname();
     const activeRoute=routes.find(route => route.href.length>0 && pathname.includes(route.href) ) || routes[0];
   return (
@@ -55,7 +55,7 @@ export function SmallSidebar(){
     const [isOpen,setOpen]=useState(false);
     return(
         <div className="block border-separate bg-background md:hidden">
-            <nav className="container flex items-center justify-between px-8">
+            <nav className="container flex items-center justify-start px-8">
                 <Sheet open={isOpen} onOpenChange={setOpen}>
                     <SheetTrigger asChild>
                         <Button variant={"ghost"} size={"icon"}>
@@ -78,5 +78,3 @@ export function SmallSidebar(){
         </div>
     )
 }
-
-export default BigSidebar
