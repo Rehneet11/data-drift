@@ -8,10 +8,9 @@ import { SignedIn, UserButton } from '@clerk/nextjs'
 function layout({children}:{children:ReactNode}) {
   return (
     <div className='flex h-screen'>
-        <BigSidebar/>
         <div className='flex flex-col flex-1 min-h-screen'>
             <header className='flex items-center justify-between py-4 h-[50px] container'>
-                <BreadCrumbHeader/>
+            <BreadCrumbHeader/>
                 <div className='gap-2 flex items-center'>
                     <ModeToggle/>
                     <SignedIn>
@@ -26,6 +25,7 @@ function layout({children}:{children:ReactNode}) {
                 </div>
             </div>
         </div>
+        <BigSidebar/>
     </div>
   )
 }
