@@ -1,6 +1,6 @@
 "use client"
 import { Workflow } from '@prisma/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { WorkflowStatus } from '@/types/workflow'
 import { FileType2Icon, MoreVerticalIcon, PencilIcon, PlaySquareIcon, Trash2Icon } from 'lucide-react'
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { buttonVariants,Button } from './ui/button'
 import { DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger } from './ui/dropdown-menu'
 import TooltipWrapper from './TooltipWrapper'
+import DeleteWorkflowDialog from '@/app/(dashboard)/workflows/_components/DeleteWorkflowDialog'
 
 const statusColors={
     [WorkflowStatus.DRAFT]:"bg-green-300 text-green-700",
@@ -43,15 +44,22 @@ function WorkflowCard({workflow}:{workflow:Workflow}) {
                     <PencilIcon size={16}/>
                     EDIT
                 </Link>
-                <WorkflowActions/>
+                <WorkflowActions workflowName={workflow.name} workflowId={workflow.id}/>
             </div>
         </CardContent>
     </Card>
   )
 }
 
-function WorkflowActions(){
+interface Props{
+    workflowName:string;
+    workflowId:string;
+}
+function WorkflowActions({workflowName,workflowId}:Props){
+    const[showDeleteDialog,setShowDeleteDialog]=useState(false);
     return (
+        <>
+        <DeleteWorkflowDialog open={showDeleteDialog} setOpen={setShowDeleteDialog} workflowName={workflowName} workflowId={workflowId}/>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant={'outline'} size={'sm'}>
@@ -65,12 +73,13 @@ function WorkflowActions(){
             <DropdownMenuContent align='end'>
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem className='flex items-center text-destructive gap-2'>
+                <DropdownMenuItem className='flex items-center text-destructive gap-2' onSelect={()=>setShowDeleteDialog((prev)=>!prev)}>
                     <Trash2Icon size={16}/>
                     DELETE
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+        </>
     )
 }
 
